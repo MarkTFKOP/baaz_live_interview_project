@@ -12,7 +12,6 @@ const FoodSchema = new mongoose.Schema(
     updatedBy: { type: ObjectId, Date: new Date() },
     deletedBy: { type: ObjectId, Date: new Date() },
   },
-
   { timestamps: true }
 );
 
