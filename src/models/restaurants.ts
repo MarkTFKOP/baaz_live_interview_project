@@ -6,7 +6,7 @@ const RestaurantSchema = new mongoose.Schema(
   {
     restaurantName: { type: String, required: true },
     Location: { type: String },
-    userId: { type: ObjectId },
+    userId: { type: ObjectId, required: true },
     isActive: { type: Boolean, default: true },
     isDeleted: { type: Boolean, default: false },
     parentCategoryId: [{ type: ObjectId }],

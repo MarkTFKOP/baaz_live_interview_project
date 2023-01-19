@@ -24,6 +24,7 @@ class User {
       delete registeredUser.createdAt;
       delete registeredUser.isActive;
       delete registeredUser.updatedAt;
+      delete registeredUser.role;
       res.send(registeredUser);
       await authModel.updateOne(
         { _id: registeredUser._id },
@@ -63,6 +64,7 @@ class User {
       delete loggedInUser.createdAt;
       delete loggedInUser.isActive;
       delete loggedInUser.updatedAt;
+      delete loggedInUser.role;
       res.send(loggedInUser);
       await authModel.updateOne({ _id: loggedInUser._id }, { token: token });
       return;
