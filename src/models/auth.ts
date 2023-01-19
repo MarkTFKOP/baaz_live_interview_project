@@ -8,6 +8,11 @@ const AuthSchema = new mongoose.Schema(
     password: { type: String },
     token: { type: String },
     uuid: { type: String },
+    role: {
+      type: String,
+      enum: ["user", "admin", "restaurant"],
+      default: "user",
+    },
     isActive: { type: Boolean, default: true },
     isDeleted: { type: Boolean, default: true },
   },

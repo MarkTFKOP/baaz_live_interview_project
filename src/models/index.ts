@@ -1,5 +1,6 @@
 import category from "./category";
 import auth from "./auth";
+import restaurants from "./restaurants";
 // let test;
 // Object.entries(mongooseObject).forEach((_, ind) => {
 //   test = _[0];
@@ -10,4 +11,4 @@ import auth from "./auth";
 //   });
 // });
 
-export default { category: category, auth: auth };
+export default { category: category, auth: auth, restaurants: restaurants };
