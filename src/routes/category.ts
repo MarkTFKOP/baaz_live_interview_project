@@ -8,11 +8,11 @@ const router = Router();
 export default (app: Router) => {
   app.use("/category", router);
   router.get("/", controllers.category.GetAllCategories);
+  router.get("/graph", controllers.category.GetAllCategoryAndGraph);
   router.post("/", controllers.category.AddOneCategory);
   router.post(
     "/image",
     upload.single("image"),
     controllers.category.uploadCategoryImage
   );
-  return router;
 };

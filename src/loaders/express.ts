@@ -1,6 +1,6 @@
 import routes from "../routes";
 import mongoose from "mongoose";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 export default (express: any) => {
   const app = express();
@@ -8,6 +8,14 @@ export default (express: any) => {
   const MONGO_URI = process.env.MONGO_URI || "";
 
   app.use(express.json());
+  app.use((req: Request, res: any, next: NextFunction) => {
+    let oldSend = res.send;
+    res.send = function (data: unknown) {
+      // console.log(data);
+      oldSend.apply(res, arguments);
+    };
+    next();
+  });
   app.use("/", routes());
 
   app.use("/status", (req: Request, res: Response) => {
