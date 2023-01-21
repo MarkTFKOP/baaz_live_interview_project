@@ -65,6 +65,7 @@ class User {
       delete loggedInUser.isActive;
       delete loggedInUser.updatedAt;
       delete loggedInUser.role;
+      res.cookie("token", `Bearer ${token}`);
       res.send(loggedInUser);
       await authModel.updateOne({ _id: loggedInUser._id }, { token: token });
       return;

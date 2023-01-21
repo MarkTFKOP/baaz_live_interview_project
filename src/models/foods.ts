@@ -8,9 +8,18 @@ const FoodSchema = new mongoose.Schema(
     categoryId: { type: ObjectId },
     isActive: { type: Boolean, default: true },
     isDeleted: { type: Boolean, default: false },
-    createdBy: { type: ObjectId, Date: new Date(), required: true },
-    updatedBy: { type: ObjectId, Date: new Date() },
-    deletedBy: { type: ObjectId, Date: new Date() },
+    createdBy: {
+      userId: { type: ObjectId },
+      Date: { type: Date, default: new Date() },
+    },
+    updatedBy: {
+      userId: { type: ObjectId },
+      Date: { type: Date, default: new Date() },
+    },
+    deletedBy: {
+      userId: { type: ObjectId },
+      Date: { type: Date, default: new Date() },
+    },
   },
   { timestamps: true }
 );

@@ -1,13 +1,14 @@
 import routes from "../routes";
 import mongoose from "mongoose";
 import { NextFunction, Request, Response } from "express";
-
+var cookieParser = require("cookie-parser");
 export default (express: any) => {
   const app = express();
   const PORT = process.env.PORT || 3001;
   const MONGO_URI = process.env.MONGO_URI || "";
 
   app.use(express.json());
+  app.use(cookieParser());
   app.use((req: Request, res: any, next: NextFunction) => {
     let oldSend = res.send;
     res.send = function (data: unknown) {

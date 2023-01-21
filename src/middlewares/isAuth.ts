@@ -10,9 +10,12 @@ export default async function isAuth(
   let decryptToken: string | Object = "";
   let token: string | undefined = "";
   try {
-    if (!req.headers.authorization?.includes("Bearer "))
+    // if (!req.headers.authorization?.includes("Bearer "))
+    //   throw res.send("Auth token does not exist");
+    // token = req.headers.authorization?.split("Bearer ")[1];
+    if (!req.cookies.token?.includes("Bearer "))
       throw res.send("Auth token does not exist");
-    token = req.headers.authorization?.split("Bearer ")[1];
+    token = req.cookies.token?.split("Bearer ")[1];
     decryptToken = await jwt.verify(
       token || "",
       process.env.JSON_WEB_TOKEN || ""
