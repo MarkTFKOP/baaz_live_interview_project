@@ -1,6 +1,9 @@
 import routes from "../routes";
 import mongoose from "mongoose";
 import { NextFunction, Request, Response } from "express";
+import { customCodes } from "./statusCodes";
+const expressResponseHandler = require("express-response-handler");
+var cookieParser = require("cookie-parser");
 
 export default (express: any) => {
   const app = express();
@@ -8,6 +11,8 @@ export default (express: any) => {
   const MONGO_URI = process.env.MONGO_URI || "";
 
   app.use(express.json());
+  app.use(expressResponseHandler(customCodes));
+  app.use(cookieParser());
   app.use((req: Request, res: any, next: NextFunction) => {
     let oldSend = res.send;
     res.send = function (data: unknown) {

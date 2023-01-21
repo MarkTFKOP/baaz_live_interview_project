@@ -49,7 +49,7 @@ class Restaurants {
         });
       restaurant = await restaurantModel.create({
         ...restaurantObject,
-        "createdAt.User": registeredUser._id,
+        "createdBy.User": registeredUser._id,
       });
       //   console.log(registeredUser);
       //   console.log(restaurant);
