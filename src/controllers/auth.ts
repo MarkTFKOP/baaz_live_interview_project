@@ -38,7 +38,7 @@ class User {
       return res.status(500).send("Something went wrong");
     }
   }
-  async Login(req: Request, res: Response) {
+  async Login(req: Request, res: any) {
     try {
       let createObj = {};
       Object.assign(createObj, { username: req.body.username });
@@ -66,23 +66,25 @@ class User {
       delete loggedInUser.updatedAt;
       delete loggedInUser.role;
       res.cookie("token", `Bearer ${token}`);
-      res.send(loggedInUser);
+      res.success.success("Login succesful", loggedInUser);
       await authModel.updateOne({ _id: loggedInUser._id }, { token: token });
       return;
     } catch (error) {
       console.log(error);
-      return res.status(500).send("Something went wrong");
+      return res.send("Something went wrong");
     }
   }
-  async GetUser(req: any, res: Response) {
+  async GetUser(req: any, res: any) {
     try {
+      console.log(req.user);
       let user = await authModel
         .findOne({ _id: req.user._id })
         .select("name username token email -_id");
       // console.log("req.user", req.user);
-      return res.send(user);
+      return res.success.success("Details fetched", user);
     } catch (error) {
       console.log(error);
+      return res.error.ServerError("Something went wrong");
     }
   }
   async UpdateUser(req: any, res: Response) {
@@ -96,10 +98,11 @@ class User {
       console.log(error);
     }
   }
-  async Logout(req: any, res: Response) {
+  async Logout(req: any, res: any) {
     try {
       await authModel.updateOne({ _id: req.user._id }, { token: "" });
-      return res.status(200).send("Logout successful");
+      res.clearCookie("token");
+      return res.success.success("Logout successful", "Logout successful");
     } catch (error) {
       console.log(error);
     }
