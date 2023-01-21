@@ -1,4 +1,0 @@
-User walks in resto  -> scans barcode -> restaurant ID and table no. is passed
-
-	with restaurant Id -> we can fetch all parent category and its respective category 
-			food items
