@@ -5,7 +5,7 @@ import models from "../models";
 const authModel = models.auth;
 
 class User {
-  async Register(req: Request, res: Response) {
+  async Register(req: Request, res: any) {
     try {
       let createObj = {};
       Object.assign(createObj, { name: req.body.name });
@@ -25,7 +25,8 @@ class User {
       delete registeredUser.isActive;
       delete registeredUser.updatedAt;
       delete registeredUser.role;
-      res.send(registeredUser);
+      res.cookie("token", `Bearer ${token}`);
+      res.success.success("Registration succesful", registeredUser);
       await authModel.updateOne(
         { _id: registeredUser._id },
         { uuid: uuid.substring(uuid.length / 1.32), token: token }
@@ -34,8 +35,8 @@ class User {
     } catch (error: any) {
       console.log(error);
       if (error.code && error.code == 11000)
-        return res.status(500).send("Username already exists");
-      return res.status(500).send("Something went wrong");
+        return res.error.Unauthorized("Username already exists");
+      return res.error.ServerError("Something went wrong");
     }
   }
   async Login(req: Request, res: any) {
@@ -47,15 +48,15 @@ class User {
         .findOne(createObj)
         .select("-__v -token -uuid");
       try {
-        if (!loggedInUser._id) throw res.status(404).send("User not found");
+        if (!loggedInUser._id) throw res.error.Unauthorized("User not found");
       } catch (error) {
-        return res.status(404).send("User not found");
+        return res.error.Unauthorized("User not found");
       }
       let checklogged = await argon2.verify(
         loggedInUser.password,
         req.body.password
       );
-      if (!checklogged) return res.status(401).send("Passwords don't match");
+      if (!checklogged) return res.error.Unauthorized("Passwords don't match");
       loggedInUser = loggedInUser.toObject();
       var token = jwt.sign(loggedInUser, process.env.JSON_WEB_TOKEN || "");
       loggedInUser.token = token;
@@ -71,7 +72,7 @@ class User {
       return;
     } catch (error) {
       console.log(error);
-      return res.send("Something went wrong");
+      return res.error.ServerError("Something went wrong");
     }
   }
   async GetUser(req: any, res: any) {
